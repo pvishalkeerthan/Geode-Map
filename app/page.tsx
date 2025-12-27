@@ -48,9 +48,10 @@ export default function Home() {
   // Load events when country is selected
   useEffect(() => {
     if (selectedCountry) {
+      const country = selectedCountry // Narrow type to string
       async function loadEvents() {
         try {
-          const countryEvents = await getEventsByCountry(selectedCountry)
+          const countryEvents = await getEventsByCountry(country)
           setEvents(countryEvents)
         } catch (error) {
           console.error('Error loading events:', error)

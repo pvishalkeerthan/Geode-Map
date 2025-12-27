@@ -211,32 +211,24 @@ export function CountryLayer({
         }
 
         const meshGeometry = new THREE.ShapeGeometry(shape)
-        const mesh = new THREE.Mesh(meshGeometry)
+        const material = new THREE.LineBasicMaterial({
+          color: color,
+          linewidth: lineWidth,
+          transparent: true,
+          opacity: isSelected ? 1 : isHovered ? 0.8 : 0.6,
+        })
+        const line = new THREE.Line(geometry, material)
 
         return (
           <group key={name}>
-            <line
-              geometry={geometry}
-              ref={(ref) => {
-                if (ref) {
-                  countryMeshesRef.current.set(name, ref as any)
-                }
-              }}
-            >
-              <lineBasicMaterial
-                color={color}
-                linewidth={lineWidth}
-                transparent
-                opacity={isSelected ? 1 : isHovered ? 0.8 : 0.6}
-              />
-            </line>
+            <primitive object={line} />
             {/* Invisible mesh for click detection */}
             <mesh
               geometry={meshGeometry}
               visible={false}
               ref={(ref) => {
                 if (ref) {
-                  countryMeshesRef.current.set(`${name}_mesh`, ref)
+                  countryMeshesRef.current.set(name, ref)
                 }
               }}
             >
